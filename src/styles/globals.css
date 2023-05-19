@@ -1,0 +1,44 @@
+@import "@radix-ui/colors/slate.css";
+@import "@radix-ui/colors/slateDark.css";
+@import "@radix-ui/colors/red.css";
+@import "@radix-ui/colors/redDark.css";
+@import "@radix-ui/colors/green.css";
+@import "@radix-ui/colors/greenDark.css";
+@import "@radix-ui/colors/violet.css";
+@import "@radix-ui/colors/violetDark.css";
+@import "@radix-ui/colors/mint.css";
+@import "@radix-ui/colors/mintDark.css";
+@import "@radix-ui/colors/blue.css";
+@import "@radix-ui/colors/blueDark.css";
+@import "@radix-ui/colors/orange.css";
+@import "@radix-ui/colors/orangeDark.css";
+@import "@radix-ui/colors/yellow.css";
+@import "@radix-ui/colors/yellowDark.css";
+@import "@radix-ui/colors/blackA.css";
+@import "@radix-ui/colors/whiteA.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --surface: #fff;
+  }
+
+  .dark-theme {
+    --surface: var(--slate1);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-neutral-6;
+  }
+  body {
+    @apply bg-neutral-1 text-neutral-12;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
