@@ -1,4 +1,4 @@
-import { BASE_URL, buildQueryParams } from "../";
+import { BASE_URL, buildQueryParams } from "@/api/utils";
 
 export const routes = {
   providers: (redirectURI: string) =>
@@ -6,9 +6,6 @@ export const routes = {
       redirect_uri: redirectURI,
     })}`,
   // Next.js API route handler
-  loginClient: () => `${BASE_URL}/api/internal/login`,
-
-  // Server route handler
-  login: () => `${BASE_URL}/api/v1/auth/login`,
-  setUsername: () => `${BASE_URL}/api/v1/auth/set_username`,
+  login: () => `${BASE_URL}/api/internal/login`,
+  setUsername: () => `${BASE_URL}/api/internal/set_username`,
 };

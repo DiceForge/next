@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { CreateWorldDialog, WorldGrid } from "@/components/features/world";
-import { buildQueryParams } from "@/api";
+import { buildQueryParams } from "@/api/utils";
 
 interface Props {
   worlds: World[];

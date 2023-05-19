@@ -23,6 +23,8 @@ export default function GoogleCallback() {
     try {
       await login(code, "google");
 
+      router.refresh();
+
       toast({
         title: "Welcome!",
         description: "You have been successfully signed in.",
@@ -43,16 +45,14 @@ export default function GoogleCallback() {
   }, [authenticate]);
 
   return (
-    <div className="flex flex-col items-center">
-      <Card className="w-full max-w-[500px] p-4 text-center">
-        <div className="flex items-center space-x-4">
-          <Skeleton className="h-12 w-12 rounded-full" />
-          <div className="flex-1 space-y-2">
-            <Skeleton className="h-4 w-full" />
-            <Skeleton className="h-4 w-full" />
-          </div>
+    <Card className="w-full p-4 text-center">
+      <div className="flex items-center space-x-4">
+        <Skeleton className="h-12 w-12 rounded-full" />
+        <div className="flex-1 space-y-2">
+          <Skeleton className="h-4 w-full" />
+          <Skeleton className="h-4 w-full" />
         </div>
-      </Card>
-    </div>
+      </div>
+    </Card>
   );
 }

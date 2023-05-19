@@ -7,9 +7,11 @@ import { getWorld } from "@/api/world/server";
 import { getUser } from "@/api/user/server";
 
 export default async function Page(props: PageProps) {
-  const user = await getUser();
-  const npcs = await getNPCs({ world_id: +props.params.id });
-  const world = await getWorld(+props.params.id);
+  const [world, user, npcs] = await Promise.all([
+    getWorld(+props.params.id),
+    getUser(),
+    getNPCs({ world_id: +props.params.id }),
+  ]);
 
   if (!user) {
     redirect("/");

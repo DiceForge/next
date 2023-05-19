@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { API_URL } from "@/api";
+import { API_URL } from "@/api/utils";
 
 export async function POST(req: NextRequest) {
   const redirectURI = process.env.NEXT_PUBLIC_REDIRECT_URI;

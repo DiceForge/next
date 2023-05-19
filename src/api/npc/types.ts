@@ -1,4 +1,4 @@
-import { SearchOptions } from "@/api";
+import { SearchOptions } from "@/api/types";
 
 export type Alignment =
   | "lawful_good"

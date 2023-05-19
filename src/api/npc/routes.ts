@@ -1,4 +1,4 @@
-import { BASE_URL, buildQueryParams } from "@/api";
+import { BASE_URL, buildQueryParams } from "@/api/utils";
 
 import { NPCSearchOptions } from "./types";
 

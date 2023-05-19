@@ -3,11 +3,12 @@ import { WorldList } from "@/components/features/world";
 import { PageProps } from "@/types/next";
 
 export default async function IndexPage(props: PageProps) {
-  const worlds = await getWorlds({
-    search: String(props.searchParams?.search ?? ""),
-  });
-
-  const pendingWorlds = await getPendingWorlds();
+  const [worlds, pendingWorlds] = await Promise.all([
+    getWorlds({
+      search: String(props.searchParams?.search ?? ""),
+    }),
+    getPendingWorlds(),
+  ]);
 
   return (
     <div className="flex flex-col gap-8">

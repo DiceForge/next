@@ -12,8 +12,10 @@ export const metadata: Metadata = {
 };
 
 export default async function Page(props: PageProps) {
-  const world = await getWorld(+props.params.id);
-  const user = await getUser();
+  const [world, user] = await Promise.all([
+    getWorld(+props.params.id),
+    getUser(),
+  ]);
 
   if (!user) {
     redirect("/");

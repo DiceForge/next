@@ -14,7 +14,7 @@ export async function getProviders(): Promise<OIDCResponse> {
 }
 
 export const login = (code: string, provider: OIDCProvider) => {
-  return axios.post<AuthResponse>(routes.loginClient(), {
+  return axios.post<AuthResponse>(routes.login(), {
     code,
     provider,
   });

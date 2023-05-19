@@ -1,34 +1,7 @@
-import useSWR from "swr";
 import axios from "axios";
 
 import { routes } from "./routes";
-import { ModifiableNPC, NPC, NPCSearchOptions } from "./types";
-
-export function useNPC(id: number) {
-  const { data: npc, error, mutate } = useSWR<NPC, Error>(routes.get(id));
-
-  return {
-    npc,
-    isLoading: !error && !npc,
-    error: error,
-    mutateNpc: mutate,
-  };
-}
-
-export function useNPCs(options: NPCSearchOptions) {
-  const {
-    data: npcList,
-    error,
-    mutate,
-  } = useSWR<NPC[], Error>(options.world_id ? routes.getAll(options) : null);
-
-  return {
-    npcList,
-    isLoading: !error && !npcList,
-    error: error,
-    mutateNpcs: mutate,
-  };
-}
+import { ModifiableNPC, NPC } from "./types";
 
 export function createNPC(data: ModifiableNPC & { world_id: number }) {
   return axios.post<NPC>(routes.create(), data);
