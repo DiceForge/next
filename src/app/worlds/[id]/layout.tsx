@@ -17,6 +17,10 @@ export default async function Layout(props: LayoutProps) {
     redirect("/");
   }
 
+  if (!user?.username) {
+    redirect("/auth/username");
+  }
+
   return (
     <div className="flex min-h-screen">
       <SideNavigation

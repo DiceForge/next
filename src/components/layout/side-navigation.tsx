@@ -84,7 +84,7 @@ function SideNavSwitcher(props: SideNavSwitcherProps) {
         </DropdownMenu>
       </div>
 
-      <div className="m:flex hidden">
+      <div className="hidden lg:flex">
         <Button
           iconButton
           color="neutral"

@@ -72,7 +72,11 @@ export default function UsernameForm() {
         {...register("username")}
       />
 
-      <div className="flex justify-end">
+      <div className="flex justify-between">
+        <Button color="neutral" type="button" variant="outlined">
+          Sign Out
+        </Button>
+
         <Button loading={loading}>Set Username</Button>
       </div>
     </form>

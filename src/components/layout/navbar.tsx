@@ -161,7 +161,7 @@ export function Navbar(props: NavbarProps) {
         </SheetContent>
       </Sheet>
 
-      <Link className="flex-1" href="/">
+      <Link href="/">
         <Logo />
       </Link>
 
@@ -179,7 +179,7 @@ export function Navbar(props: NavbarProps) {
         </NavigationMenuList>
       </NavigationMenu>
 
-      <div className="hidden flex-1 items-center justify-end gap-2 lg:flex">
+      <div className="hidden items-center justify-end gap-2 lg:flex">
         <ThemeToggle />
 
         {!user && (
@@ -200,7 +200,7 @@ export function Navbar(props: NavbarProps) {
         )}
       </div>
 
-      <div className="flex flex-1 justify-end lg:hidden">
+      <div className="flex justify-end lg:hidden">
         <Sheet>
           <SheetTrigger asChild>
             <Button iconButton color="neutral" variant="text">

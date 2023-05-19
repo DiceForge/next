@@ -27,7 +27,7 @@
   }
 
   .dark-theme {
-    --surface: var(--slate1);
+    --surface: var(--slate2);
   }
 }
 
