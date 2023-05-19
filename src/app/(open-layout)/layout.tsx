@@ -7,10 +7,6 @@ import { getUser } from "@/api/user/server";
 export default async function Layout(props: LayoutProps) {
   const user = await getUser();
 
-  if (!user?.username) {
-    redirect("/auth/username");
-  }
-
   return (
     <div className="m-6 flex max-w-container flex-col lg:m-10 xl:mx-auto">
       <Navbar user={user} variant="open" />
