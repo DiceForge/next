@@ -5,6 +5,7 @@ export interface PageProps {
   searchParams?: { [key: string]: string | string[] | undefined };
 }
 
-export interface LayoutProps extends PageProps {
+export interface LayoutProps {
+  params: { [key: string]: string };
   children: ReactNode;
 }

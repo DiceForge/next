@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { API_URL } from "@/api/utils";
-
 export async function middleware(req: NextRequest) {
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
   if (!API_URL) {
     throw new Error("API URL missing!");
   }

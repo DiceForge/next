@@ -1,5 +1,5 @@
-import { BASE_URL, buildQueryParams } from "@/api/utils";
 import { SearchOptions } from "@/api/types";
+import { BASE_URL, buildQueryParams } from "@/api/utils";
 
 import { World } from "./types";
 
