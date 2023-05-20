@@ -29,6 +29,15 @@
   .dark-theme {
     --surface: var(--slate2);
   }
+
+  .scrollbar-hide {
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 @layer base {

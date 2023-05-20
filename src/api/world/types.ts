@@ -21,7 +21,10 @@ export interface World {
   updated_at: string;
 }
 
-export type ModifiableWorld = Omit<World, "id" | "created_at" | "roles">;
+export type ModifiableWorld = Omit<
+  World,
+  "id" | "created_at" | "updated_at" | "roles"
+>;
 
 export interface InviteUserRequest {
   username: string;

@@ -1,4 +1,4 @@
-import { OIDCProvider } from "@/api/auth/types";
+import { type OIDCProvider } from "@/api/auth/types";
 
 export type OIDCDetails = {
   [key in OIDCProvider]: {

@@ -1,6 +1,9 @@
+"use client";
+
 import { cva, VariantProps } from "class-variance-authority";
-import { forwardRef, HTMLProps, Ref } from "react";
+import { ComponentProps, ElementRef, forwardRef, Ref } from "react";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 import { Icon, IconName } from "@/components/ui/icon";
 import { cn } from "@/lib/utils";
@@ -41,18 +44,18 @@ export const sidenavItemVariants = cva(
   }
 );
 
-export type ItemProps = HTMLProps<HTMLAnchorElement> &
+export type ItemProps = ComponentProps<typeof Link> &
   VariantProps<typeof sidenavItemVariants> & {
     icon: IconName;
   };
-type ItemRef = Ref<HTMLAnchorElement>;
+type ItemRef = Ref<ElementRef<typeof Link>>;
 
 export const SideNavItem = forwardRef((props: ItemProps, ref: ItemRef) => {
   const { active, className, icon, children, ...rest } = props;
   const pathname = usePathname();
 
   return (
-    <a
+    <Link
       className={cn(
         sidenavItemVariants({
           active: active ?? pathname === props.href,
@@ -68,7 +71,7 @@ export const SideNavItem = forwardRef((props: ItemProps, ref: ItemRef) => {
         size={20}
       />
       <span className="group-[.collapsed]:hidden">{children}</span>
-    </a>
+    </Link>
   );
 });
 
