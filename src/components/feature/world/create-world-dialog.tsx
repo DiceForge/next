@@ -1,6 +1,4 @@
-"use client";
-
-import { ReactNode, useState, useTransition } from "react";
+import { ReactNode, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
@@ -12,11 +10,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { createWorld } from "@/api/world/actions";
 import { ModifiableWorld } from "@/api/world/types";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast";
 import WorldForm, { worldShape } from "@/components/feature/world/world-form";
+import { createWorld } from "@/api/world/requests";
 
 interface DialogProps {
   children: ReactNode;
@@ -24,7 +22,6 @@ interface DialogProps {
 
 export default function CreateWorldDialog(props: DialogProps) {
   const [open, setOpen] = useState(false);
-  const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
   const router = useRouter();
   const { register, control, handleSubmit, formState } =
@@ -37,25 +34,23 @@ export default function CreateWorldDialog(props: DialogProps) {
       resolver: yupResolver(worldShape),
     });
 
-  const onCreateWorld = (data: ModifiableWorld) => {
-    startTransition(() => {
-      createWorld(data)
-        .then((res) => {
-          router.push(`/world/${res.id}/settings`);
+  const onCreateWorld = async (data: ModifiableWorld) => {
+    try {
+      const res = await createWorld(data);
 
-          toast({
-            title: "Success!",
-            description: "You have successfully created a new world!",
-          });
-        })
-        .catch(() =>
-          toast({
-            title: "Uh oh!",
-            description: "There was a problem creating your world.",
-            variant: "destructive",
-          })
-        );
-    });
+      toast({
+        title: "Success!",
+        description: "You have successfully created a new world!",
+      });
+
+      router.push(`/world/${res.data.id}/settings`);
+    } catch (e) {
+      toast({
+        title: "Uh oh!",
+        description: "There was a problem creating your world.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -89,7 +84,7 @@ export default function CreateWorldDialog(props: DialogProps) {
               Cancel
             </Button>
 
-            <Button loading={isPending}>Create World</Button>
+            <Button loading={formState.isSubmitting}>Create World</Button>
           </div>
         </form>
       </DialogContent>

@@ -1,11 +1,8 @@
-import { ReactNode } from "react";
+import { ReactElement, ReactNode } from "react";
+import { NextPage } from "next";
 
-export interface PageProps {
-  params: { [key: string]: string };
-  searchParams?: { [key: string]: string | string[] | undefined };
-}
+export type PageLayout = (page: ReactElement) => ReactNode;
 
-export interface LayoutProps {
-  params: { [key: string]: string };
-  children: ReactNode;
-}
+export type NextPageWithLayout<P = unknown, IP = P> = NextPage<P, IP> & {
+  getLayout?: PageLayout;
+};

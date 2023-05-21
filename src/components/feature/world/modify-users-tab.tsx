@@ -1,5 +1,3 @@
-"use client";
-
 import { World } from "@/api/world/types";
 import { User } from "@/api/user/types";
 import { Button } from "@/components/ui/button";
@@ -7,6 +5,7 @@ import { Icon } from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
 import usePermissions, { Permission } from "@/components/hooks/usePermissions";
 import InviteUserDialog from "@/components/feature/world/invite-user-dialog";
+import ModifyUsersTable from "@/components/feature/world/modify-users-table";
 
 interface ModifyUsersProps {
   world: World;
@@ -29,6 +28,8 @@ export default function ModifyUsersTab(props: ModifyUsersProps) {
           </Button>
         </InviteUserDialog>
       </div>
+
+      <ModifyUsersTable user={user} world={world} />
     </div>
   );
 }

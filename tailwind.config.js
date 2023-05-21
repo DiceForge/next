@@ -3,7 +3,7 @@ const { fontFamily } = require("tailwindcss/defaultTheme");
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class", ".dark-theme"],
-  content: ["src/app/**/*.{ts,tsx}", "src/components/**/*.{ts,tsx}"],
+  content: ["src/pages/**/*.{ts,tsx}", "src/components/**/*.{ts,tsx}"],
   theme: {
     container: {
       center: true,
@@ -229,6 +229,13 @@ module.exports = {
         body: ["var(--font-body)", ...fontFamily.sans],
         display: ["var(--font-display)", ...fontFamily.sans],
       },
+      typography: {
+        DEFAULT: {
+          css: {
+            color: "var(--slate11)",
+          },
+        },
+      },
       keyframes: {
         "accordion-down": {
           from: { height: 0 },
@@ -267,7 +274,7 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
 };
 
 function generateScale(name) {

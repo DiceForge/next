@@ -1,5 +1,3 @@
-"use client";
-
 import { ReactNode, useState } from "react";
 
 import {
@@ -18,7 +16,6 @@ interface ConfirmProps {
   confirmText?: string;
   cancelText?: string;
   dangerous?: boolean;
-  loading?: boolean;
   children: ReactNode;
 }
 
@@ -30,13 +27,12 @@ export function ConfirmDialog(props: ConfirmProps) {
     confirmText,
     cancelText,
     dangerous,
-    loading,
     children,
   } = props;
   const [open, setOpen] = useState(false);
 
   const handleConfirm = async () => {
-    onConfirm();
+    await onConfirm();
     setOpen(false);
   };
 
@@ -59,7 +55,6 @@ export function ConfirmDialog(props: ConfirmProps) {
 
           <Button
             color={dangerous ? "danger" : "primary"}
-            loading={loading}
             onClick={handleConfirm}
           >
             {confirmText ?? "Confirm"}

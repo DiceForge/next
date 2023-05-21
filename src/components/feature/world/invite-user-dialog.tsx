@@ -1,6 +1,4 @@
-"use client";
-
-import { ReactNode, useState, useTransition } from "react";
+import { ReactNode, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { object, string } from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -17,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectItem } from "@/components/ui/select";
 import { usernameRegex, worldPermissionDetails } from "@/lib";
 import { InviteUserRequest, World } from "@/api/world/types";
-import { inviteUser } from "@/api/world/actions";
+import { inviteUser, useWorld } from "@/api/world/requests";
 import { useToast } from "@/components/ui/toast";
 import { Icon } from "@/components/ui/icon";
 
@@ -35,7 +33,7 @@ const inviteShape = object().shape({
 
 export default function InviteUserDialog(props: InviteUserProps) {
   const { children, world } = props;
-  const [isPending, startTransition] = useTransition();
+  const { mutateWorld } = useWorld(world.id);
   const [open, setOpen] = useState(false);
   const { toast } = useToast();
   const { control, register, formState, handleSubmit, reset } =
@@ -47,26 +45,26 @@ export default function InviteUserDialog(props: InviteUserProps) {
       resolver: yupResolver(inviteShape),
     });
 
-  const onInviteUser = (data: InviteUserRequest) => {
-    startTransition(() => {
-      inviteUser(world.id, data)
-        .then(() => {
-          toast({
-            title: "Success!",
-            description: `You have successfully invited ${data.username} to your world.`,
-          });
+  const onInviteUser = async (data: InviteUserRequest) => {
+    try {
+      await inviteUser(world.id, data);
 
-          setOpen(false);
-        })
-        .catch(() =>
-          toast({
-            title: "Uh oh!",
-            description: `There was a problem inviting ${data.username} to your world.`,
-            variant: "destructive",
-          })
-        )
-        .finally(reset);
-    });
+      mutateWorld();
+      reset();
+
+      toast({
+        title: "Success!",
+        description: `You have successfully invited ${data.username} to your world.`,
+      });
+
+      setOpen(false);
+    } catch (e) {
+      toast({
+        title: "Uh oh!",
+        description: `There was a problem inviting ${data.username} to your world.`,
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -120,7 +118,7 @@ export default function InviteUserDialog(props: InviteUserProps) {
                 Cancel
               </Button>
 
-              <Button loading={isPending}>
+              <Button loading={formState.isSubmitting}>
                 <Icon name="UserPlus" />
                 Invite User
               </Button>

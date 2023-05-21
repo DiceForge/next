@@ -1,6 +1,4 @@
-"use client";
-
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import {
   DropdownMenu,
@@ -13,6 +11,9 @@ import {
 import { User } from "@/api/user/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Icon } from "@/components/ui/icon";
+import { useUser } from "@/api/user/requests";
+import { useToast } from "@/components/ui/toast";
+import { useWorlds } from "@/api/world/requests";
 
 interface UserMenuProps {
   user: User;
@@ -20,6 +21,22 @@ interface UserMenuProps {
 
 export default function UserMenu(props: UserMenuProps) {
   const { user } = props;
+  const { mutateUser } = useUser();
+  const { mutateWorlds } = useWorlds();
+  const router = useRouter();
+  const { toast } = useToast();
+
+  const onSignOut = async () => {
+    localStorage.removeItem("token");
+    await mutateUser();
+    await mutateWorlds();
+    router.push("/");
+
+    toast({
+      title: "Signed Out!",
+      description: "You have been successfully signed out.",
+    });
+  };
 
   return (
     <DropdownMenu>
@@ -57,9 +74,7 @@ export default function UserMenu(props: UserMenuProps) {
         <DropdownMenuSeparator />
 
         <DropdownMenuGroup>
-          <Link href="/auth/sign-out">
-            <DropdownMenuItem>Sign Out</DropdownMenuItem>
-          </Link>
+          <DropdownMenuItem onClick={onSignOut}>Sign Out</DropdownMenuItem>
         </DropdownMenuGroup>
 
         <DropdownMenuSeparator />

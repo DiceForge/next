@@ -34,7 +34,7 @@ const badgeVariants = cva(
   }
 );
 
-type BadgeProps = HTMLProps<HTMLDivElement> &
+type BadgeProps = Omit<HTMLProps<HTMLDivElement>, "color"> &
   VariantProps<typeof badgeVariants>;
 type BadgeRef = Ref<HTMLDivElement>;
 

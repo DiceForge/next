@@ -1,5 +1,11 @@
 import { cva, VariantProps } from "class-variance-authority";
-import { ButtonHTMLAttributes, forwardRef, Ref } from "react";
+import {
+  ButtonHTMLAttributes,
+  forwardRef,
+  MouseEvent,
+  Ref,
+  useState,
+} from "react";
 
 import { Icon } from "@/components/ui/icon";
 
@@ -98,8 +104,8 @@ export const buttonVariants = cva(
         color: "primary",
         className: [
           "text-primary-11",
-          "hover:bg-neutral-3",
-          "active:bg-neutral-4",
+          "hover:bg-neutral-4",
+          "active:bg-neutral-5",
         ],
       },
 
@@ -145,8 +151,8 @@ export const buttonVariants = cva(
         color: "accent",
         className: [
           "text-accent-11",
-          "hover:bg-neutral-3",
-          "active:bg-neutral-4",
+          "hover:bg-neutral-4",
+          "active:bg-neutral-5",
         ],
       },
 
@@ -192,8 +198,8 @@ export const buttonVariants = cva(
         color: "neutral",
         className: [
           "text-neutral-11",
-          "hover:bg-neutral-3",
-          "active:bg-neutral-4",
+          "hover:bg-neutral-4",
+          "active:bg-neutral-5",
         ],
       },
 
@@ -239,8 +245,8 @@ export const buttonVariants = cva(
         color: "danger",
         className: [
           "text-danger-11",
-          "hover:bg-neutral-3",
-          "active:bg-neutral-4",
+          "hover:bg-neutral-4",
+          "active:bg-neutral-5",
         ],
       },
 
@@ -286,8 +292,8 @@ export const buttonVariants = cva(
         color: "success",
         className: [
           "text-success-11",
-          "hover:bg-neutral-3",
-          "active:bg-neutral-4",
+          "hover:bg-neutral-4",
+          "active:bg-neutral-5",
         ],
       },
     ],
@@ -317,8 +323,20 @@ export const Button = forwardRef((props: ButtonProps, ref: ButtonRef) => {
     iconButton,
     loading,
     className,
+    onClick,
     ...rest
   } = props;
+  const [internalLoading, setInternalLoading] = useState(false);
+
+  const isLoading = internalLoading || loading;
+
+  const clickHandler = (e: MouseEvent<HTMLButtonElement>) => {
+    if (onClick) {
+      setInternalLoading(true);
+
+      Promise.resolve(onClick(e)).then(() => setInternalLoading(false));
+    }
+  };
 
   return (
     <button
@@ -328,13 +346,14 @@ export const Button = forwardRef((props: ButtonProps, ref: ButtonRef) => {
         color,
         fullWidth,
         iconButton,
-        loading,
+        loading: isLoading,
         className,
       })}
+      onClick={clickHandler}
       {...rest}
       ref={ref}
     >
-      {loading && <Icon className="animate-spin" name="Loader" />}
+      {isLoading && <Icon className="animate-spin" name="Loader" />}
       <span className="flex gap-2">{children}</span>
     </button>
   );

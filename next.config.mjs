@@ -7,9 +7,6 @@ const withBundleAnalyzer = bundleAnalyzer({
 /** @type {import('next').NextConfig} */
 const nextConfig = withBundleAnalyzer({
   reactStrictMode: true,
-  experimental: {
-    serverActions: true
-  },
 });
 
 export default nextConfig

@@ -1,10 +1,9 @@
-"use client";
-
 import { TrashIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useTransition } from "react";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useRouter } from "next/router";
+import ReactMarkdown from "react-markdown";
 
 import { ModifiableWorld, World } from "@/api/world/types";
 import WorldForm, { worldShape } from "@/components/feature/world/world-form";
@@ -12,9 +11,10 @@ import { ConfirmDialog } from "@/components/common/confirm-dialog";
 import { DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast";
-import { User } from "@/api/user/types";
 import usePermissions, { Permission } from "@/components/hooks/usePermissions";
-import { deleteWorld, updateWorld } from "@/api/world/actions";
+import { useWorld, deleteWorld, updateWorld } from "@/api/world/requests";
+import { User } from "@/api/user/types";
+import { Badge } from "@/components/ui/badge";
 
 interface ModifyWorldProps {
   world: World;
@@ -23,8 +23,8 @@ interface ModifyWorldProps {
 
 export default function ModifyWorldTab(props: ModifyWorldProps) {
   const { world, user } = props;
-  const [isPending, startTransition] = useTransition();
   const router = useRouter();
+  const { mutateWorld } = useWorld(world.id);
   const { toast } = useToast();
   const permissions = usePermissions(user, world);
   const { register, control, handleSubmit, formState, reset } =
@@ -37,44 +37,42 @@ export default function ModifyWorldTab(props: ModifyWorldProps) {
       resolver: yupResolver(worldShape),
     });
 
-  const onModifyWorld = (data: ModifiableWorld) => {
-    startTransition(() => {
-      updateWorld(world.id, data)
-        .then(() =>
-          toast({
-            title: "Saved!",
-            description: "Your changes have been saved.",
-          })
-        )
-        .catch(() =>
-          toast({
-            title: "Uh oh!",
-            description: "There was a problem saving your changes.",
-            variant: "destructive",
-          })
-        );
-    });
+  const onModifyWorld = async (data: ModifiableWorld) => {
+    try {
+      const res = await updateWorld(world.id, data);
+
+      await mutateWorld(res.data);
+
+      toast({
+        title: "Saved!",
+        description: "Your changes have been saved.",
+      });
+    } catch (e) {
+      toast({
+        title: "Uh oh!",
+        description: "There was a problem saving your changes.",
+        variant: "destructive",
+      });
+    }
   };
 
-  const onDeleteWorld = () => {
-    startTransition(() => {
-      deleteWorld(world.id)
-        .then(() => {
-          router.push("/");
+  const onDeleteWorld = async () => {
+    try {
+      await deleteWorld(world.id);
 
-          toast({
-            title: "Success!",
-            description: `You have successfully deleted ${world.name}.`,
-          });
-        })
-        .catch(() =>
-          toast({
-            title: "Uh oh!",
-            description: "There was a problem deleting that world.",
-            variant: "destructive",
-          })
-        );
-    });
+      toast({
+        title: "Success!",
+        description: `You have successfully deleted ${world.name}.`,
+      });
+
+      router.push("/");
+    } catch (e) {
+      toast({
+        title: "Uh oh!",
+        description: "There was a problem deleting that world.",
+        variant: "destructive",
+      });
+    }
   };
 
   const onCancel = () => {
@@ -84,6 +82,25 @@ export default function ModifyWorldTab(props: ModifyWorldProps) {
       visibility: world.visibility,
     });
   };
+
+  if (!permissions[Permission.CAN_EDIT_WORLD]) {
+    return (
+      <div className="flex flex-col">
+        <div>
+          {world.visibility === "public" && <Badge>Public</Badge>}
+          {world.visibility === "private" && (
+            <Badge color="neutral">Private</Badge>
+          )}
+        </div>
+
+        <h2 className="mb-4 font-display text-header2">{world.name}</h2>
+
+        <div className="prose">
+          <ReactMarkdown>{world.description}</ReactMarkdown>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <form onSubmit={handleSubmit(onModifyWorld)}>
@@ -100,7 +117,6 @@ export default function ModifyWorldTab(props: ModifyWorldProps) {
           <ConfirmDialog
             dangerous
             description="This will permanently delete your world and all the creations within it. This is irreversible. Are you sure?"
-            loading={isPending}
             onConfirm={onDeleteWorld}
             title="Are you sure?"
           >
@@ -130,7 +146,7 @@ export default function ModifyWorldTab(props: ModifyWorldProps) {
 
             <Button
               disabled={!permissions[Permission.CAN_EDIT_WORLD]}
-              loading={isPending}
+              loading={formState.isSubmitting}
             >
               Save Changes
             </Button>
