@@ -19,7 +19,7 @@ export default function NavbarLinks(props: NavbarLinksProps) {
   const router = useRouter();
 
   return (
-    <NavigationMenu className="hidden lg:flex">
+    <NavigationMenu className="hidden xl:flex">
       <NavigationMenuList>
         {links.map((link) => {
           const isActive = router.asPath.startsWith(link.href);

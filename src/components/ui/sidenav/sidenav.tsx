@@ -14,7 +14,7 @@ export const sidenavVariants = cva(
     "border-r",
     "border-r-neutral-6",
     "overflow-y-scroll",
-    "w-[300px]",
+    "min-w-[300px]",
     "transition-all",
   ],
   {

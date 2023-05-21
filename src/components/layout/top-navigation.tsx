@@ -48,7 +48,7 @@ export default function TopNavigation(props: NavbarProps) {
           <SheetTrigger asChild>
             <Button
               iconButton
-              className="flex xl:hidden"
+              className="flex lg:hidden"
               color="neutral"
               variant="text"
             >
@@ -68,7 +68,7 @@ export default function TopNavigation(props: NavbarProps) {
 
       <NavbarLinks links={links} />
 
-      <div className="hidden items-center justify-end gap-2 lg:flex">
+      <div className="hidden items-center justify-end gap-2 xl:flex">
         <ThemeToggle />
 
         {!user && (
@@ -89,7 +89,7 @@ export default function TopNavigation(props: NavbarProps) {
         )}
       </div>
 
-      <div className="flex flex-1 justify-end lg:hidden">
+      <div className="flex flex-1 justify-end xl:hidden">
         <Sheet>
           <SheetTrigger asChild>
             <Button iconButton color="neutral" variant="text">
