@@ -1,17 +1,21 @@
+import { forwardRef, HTMLAttributes, Ref } from "react";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Icon } from "@/components/ui/icon";
 import { User } from "@/api/user/types";
 
-interface UserCardProps {
+interface UserCardProps extends HTMLAttributes<HTMLDivElement> {
   user: User;
   isMenu?: boolean;
 }
 
-export default function UserCard(props: UserCardProps) {
-  const { user, isMenu } = props;
+type UserCardRef = Ref<HTMLDivElement>;
+
+const UserCard = forwardRef((props: UserCardProps, ref: UserCardRef) => {
+  const { user, isMenu, ...rest } = props;
 
   return (
-    <div className="flex cursor-pointer items-center gap-3">
+    <div className="flex cursor-pointer items-center gap-3" {...rest} ref={ref}>
       <Avatar>
         <AvatarImage src={user.avatar_url ?? undefined} />
         <AvatarFallback>
@@ -27,4 +31,8 @@ export default function UserCard(props: UserCardProps) {
       {isMenu && <Icon name="ChevronDown" />}
     </div>
   );
-}
+});
+
+UserCard.displayName = "UserCard";
+
+export default UserCard;

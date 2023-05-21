@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/router";
 import ReactMarkdown from "react-markdown";
+import { useEffect } from "react";
 
 import { ModifiableWorld, World } from "@/api/world/types";
 import WorldForm, { worldShape } from "@/components/feature/world/world-form";
@@ -28,13 +29,16 @@ export default function ModifyWorldTab(props: ModifyWorldProps) {
   const permissions = usePermissions(user, world);
   const { register, control, handleSubmit, formState, reset } =
     useForm<ModifiableWorld>({
-      defaultValues: {
-        name: world.name,
-        description: world.description,
-        visibility: world.visibility,
-      },
       resolver: yupResolver(worldShape),
     });
+
+  useEffect(() => {
+    reset({
+      name: world.name,
+      description: world.description,
+      visibility: world.visibility,
+    });
+  }, [reset, world]);
 
   const onModifyWorld = async (data: ModifiableWorld) => {
     try {
