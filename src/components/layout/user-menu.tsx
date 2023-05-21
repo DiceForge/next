@@ -9,11 +9,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { User } from "@/api/user/types";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Icon } from "@/components/ui/icon";
 import { useUser } from "@/api/user/requests";
 import { useToast } from "@/components/ui/toast";
 import { useWorlds } from "@/api/world/requests";
+import UserCard from "@/components/layout/user-card";
 
 interface UserMenuProps {
   user: User;
@@ -41,21 +40,7 @@ export default function UserMenu(props: UserMenuProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <div className="flex cursor-pointer items-center gap-3">
-          <Avatar>
-            <AvatarImage src={user.avatar_url ?? undefined} />
-            <AvatarFallback>
-              <Icon name="User" />
-            </AvatarFallback>
-          </Avatar>
-
-          <div className="flex flex-col items-start">
-            <span className="text-body-semibold-400">{user.username}</span>
-            <span className="text-body-regular-200">{user.email}</span>
-          </div>
-
-          <Icon name="ChevronDown" />
-        </div>
+        <UserCard isMenu user={user} />
       </DropdownMenuTrigger>
 
       <DropdownMenuContent

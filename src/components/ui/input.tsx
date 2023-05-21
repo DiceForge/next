@@ -7,7 +7,15 @@ import { Icon, IconName } from "./icon";
 import { displayHelpText, styledPrefix } from "./common";
 import { Label } from "./label";
 
-const inputLayout = cva(["inline-flex", "flex-col", "gap-1", "min-w-[280px]"]);
+const inputLayout = cva([
+  "inline-flex",
+  "flex-col",
+  "gap-1",
+  "flex-1",
+  "min-w-0",
+  "md:flex-grow-0",
+  "md:min-w-[280px]",
+]);
 
 const inputArea = cva(
   [

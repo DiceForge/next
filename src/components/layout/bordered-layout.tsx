@@ -5,7 +5,7 @@ import TopNavigation from "@/components/layout/top-navigation";
 const BorderedLayout: PageLayout = (page) => {
   return (
     <div className="flex min-h-screen">
-      <SideNavigation />
+      <SideNavigation className="hidden w-full md:flex" />
 
       <div className="flex w-full flex-1 flex-col">
         <TopNavigation variant="bordered" />

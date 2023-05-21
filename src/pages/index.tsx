@@ -17,7 +17,7 @@ const Page: NextPageWithLayout = () => {
       <h1 className="mb-4 font-display text-header1">Worlds</h1>
 
       <Tabs defaultValue="my_worlds">
-        <div className="flex gap-4">
+        <div className="flex flex-col gap-4 md:flex-row">
           <TabsList>
             <TabsTrigger value="my_worlds">My Worlds</TabsTrigger>
             <TabsTrigger value="pending_invites">

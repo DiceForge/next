@@ -6,8 +6,10 @@ import {
   SideNavItem,
   SideNavProps,
 } from "@/components/ui/sidenav";
-import { useWorld } from "@/api/world/requests";
+import { useWorld, useWorlds } from "@/api/world/requests";
 import { IconName } from "@/components/ui/icon";
+import WorldSwitcher from "@/components/layout/world-switcher";
+import { Input } from "@/components/ui/input";
 
 interface NavLink {
   href: string;
@@ -17,6 +19,7 @@ interface NavLink {
 
 export default function SideNavigation(props: SideNavProps) {
   const router = useRouter();
+  const { worldList } = useWorlds();
   const { world } = useWorld(Number(router.query.id));
 
   const contentLinks: NavLink[] = [
@@ -57,6 +60,16 @@ export default function SideNavigation(props: SideNavProps) {
 
   return (
     <SideNav {...props}>
+      <WorldSwitcher currentWorld={world} worldList={worldList} />
+
+      <div className="flex group-[.collapsed]:hidden">
+        <Input
+          className="md:min-w-full"
+          placeholder="Search..."
+          startIcon="Search"
+        />
+      </div>
+
       <SideNavGroup title="Content">
         {contentLinks.map((link) => (
           <SideNavItem href={link.href} icon={link.icon} key={link.href}>

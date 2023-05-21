@@ -8,6 +8,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 interface ConfirmProps {
   onConfirm: () => void;
@@ -15,6 +16,11 @@ interface ConfirmProps {
   description: string;
   confirmText?: string;
   cancelText?: string;
+  matchTextToDelete?: {
+    label: string;
+    helpText: string;
+    matchText: string;
+  };
   dangerous?: boolean;
   children: ReactNode;
 }
@@ -27,9 +33,11 @@ export function ConfirmDialog(props: ConfirmProps) {
     confirmText,
     cancelText,
     dangerous,
+    matchTextToDelete,
     children,
   } = props;
   const [open, setOpen] = useState(false);
+  const [matchText, setMatchText] = useState("");
 
   const handleConfirm = async () => {
     await onConfirm();
@@ -44,6 +52,16 @@ export function ConfirmDialog(props: ConfirmProps) {
         <DialogTitle>{title}</DialogTitle>
         <DialogDescription>{description}</DialogDescription>
 
+        {matchTextToDelete && (
+          <Input
+            className="mb-4"
+            helpText={matchTextToDelete.helpText}
+            label={matchTextToDelete.label}
+            onChange={(e) => setMatchText(e.target.value)}
+            value={matchText}
+          />
+        )}
+
         <DialogFooter>
           <Button
             color="neutral"
@@ -55,6 +73,9 @@ export function ConfirmDialog(props: ConfirmProps) {
 
           <Button
             color={dangerous ? "danger" : "primary"}
+            disabled={
+              matchTextToDelete && matchTextToDelete.matchText !== matchText
+            }
             onClick={handleConfirm}
           >
             {confirmText ?? "Confirm"}

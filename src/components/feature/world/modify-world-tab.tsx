@@ -1,7 +1,6 @@
 import { TrashIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useState } from "react";
 import { useRouter } from "next/router";
 import ReactMarkdown from "react-markdown";
 
@@ -117,6 +116,12 @@ export default function ModifyWorldTab(props: ModifyWorldProps) {
           <ConfirmDialog
             dangerous
             description="This will permanently delete your world and all the creations within it. This is irreversible. Are you sure?"
+            matchTextToDelete={{
+              matchText: world.name,
+              label: "World Name",
+              helpText:
+                "Please confirm you want to delete this world by entering its name.",
+            }}
             onConfirm={onDeleteWorld}
             title="Are you sure?"
           >

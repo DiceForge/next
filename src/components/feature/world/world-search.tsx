@@ -26,7 +26,7 @@ export default function WorldSearch() {
       <CreateWorldDialog>
         <Button>
           <PlusIcon size={20} />
-          Create World
+          <span className="hidden md:inline-block">Create World</span>
         </Button>
       </CreateWorldDialog>
     </div>
