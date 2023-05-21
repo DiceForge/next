@@ -46,7 +46,7 @@ export default function WorldSwitcher(props: WorldSwitcherProps) {
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               {worldList?.map((world) => (
-                <Link href={`/worlds/${world.id}/settings`} key={world.id}>
+                <Link href={`/world/${world.id}/settings`} key={world.id}>
                   <DropdownMenuItem
                     active={world.id === currentWorld?.id}
                     className="truncate"
